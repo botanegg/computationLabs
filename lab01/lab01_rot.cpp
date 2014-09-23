@@ -2,6 +2,12 @@
 #include <fstream>
 #include <cmath>
 
+void deleteArr(double **arr, int size);
+
+void writeVec(double *vec, int size);
+
+void writeMatrix(double **U, int size);
+
 using namespace std;
 
 int main() {
@@ -86,39 +92,23 @@ int main() {
     /* WRITE */
     //write matrix[][]
     cout << "write matrix[][]" << endl;
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            cout << matrix[i][j] << ' ';
-        }
-        cout << matrix[i][size] << endl;
-    }
-    cout << endl;
+    writeMatrix(matrix, size);
 
     //write x[]
     cout << "write x[]" << endl;
-    for (int i = 0; i < size; ++i) {
-        cout << x[i] << endl;
-    }
-    cout << endl;
+    writeVec(x, size);
 
     //write residual[]
     cout << "write residual[]" << endl;
-    for (int i = 0; i < size; ++i) {
-        cout << residual[i] << endl;
-    }
-    cout << endl;
+    writeVec(residual, size);
 
 
     /* CLEAN */
     //clean matrix array
-    for (int i = 0; i < size; ++i) {
-        delete[] matrix[i];
-    }
+    deleteArr(matrix, size);
 
     //clean orig_matrix array
-    for (int i = 0; i < size; ++i) {
-        delete[] orig_matrix[i];
-    }
+    deleteArr(orig_matrix, size);
 
     delete[] matrix;
     delete[] orig_matrix;
@@ -126,4 +116,27 @@ int main() {
     delete[] residual;
 
     return 0;
+}
+
+void writeMatrix(double **U, int size) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            cout << U[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+void writeVec(double *vec, int size) {
+    for (int i = 0; i < size; ++i) {
+        cout << vec[i] << endl;
+    }
+    cout << endl;
+}
+
+void deleteArr(double **arr, int size) {
+    for (int i = 0; i < size; ++i) {
+        delete[] arr[i];
+    }
 }
