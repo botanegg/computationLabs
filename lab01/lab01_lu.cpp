@@ -1,12 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
+#include <memory.h>
 
 using namespace std;
 
 int main() {
     double **matrix = NULL;
-    double **orig_matrix = NULL;
+    double **L = NULL;
+    double **U = NULL;
     fstream file("input.txt");
     int size = 0;
     file >> size;
@@ -16,39 +17,83 @@ int main() {
 
 
     matrix = new double *[size];
-    orig_matrix = new double *[size];
+    L = new double *[size];
+    U = new double *[size];
 
     for (int i = 0; i < size; ++i) {
         matrix[i] = new double[size_i1];
-        orig_matrix[i] = new double[size_i1];
+
+        L[i] = new double[size];
+        U[i] = new double[size];
+        memset(L[i], 0, sizeof(double) * size);
+        memset(U[i], 0, sizeof(double) * size);
     }
 
     //read matrix[][] + orig_matrix fill
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             file >> matrix[i][j];
-            orig_matrix[i][j] = matrix[i][j];
         }
         file >> matrix[i][size];
-        orig_matrix[i][size] = matrix[i][size];
     }
 
     file.close();
 
 
     /* COMPUTE */
-    //compute matrix[][] LU method
+    //compute LU method
     //forward
 
-    //!TODO write it
+    //compute L U matrix
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            double sum = 0;
+            for (int k = 0; k < i; ++k) {
+                sum += L[i][k] * U[k][j];
+            }
+
+            if (i <= j) {
+                //compute U matrix
+                U[i][j] = matrix[i][j] - sum;
+            } else {
+                //compute L matrix
+                L[i][j] = (matrix[i][j] - sum) / U[j][j];
+            }
+
+            if (i == j) L[i][j] = 1;
+        }
+    }
+
+    //Ly = b
+    //Ux = y
+
+    //compute y[]
+    //forward L
+
+    double *y = NULL;
+    y = new double[size];
+
+    for (int i = 0; i < size; ++i) {
+        double sum = 0;
+        for (int j = 0; j < i; ++j)
+            sum += L[i][j] * y[j];
+        double L_ii_mul_x = matrix[i][size] - sum;
+        y[i] = L_ii_mul_x;
+    }
 
     //compute x[]
-    //backward
+    //backward U
 
     double *x = NULL;
     x = new double[size];
 
-    //!TODO write it
+    for (int i = size_d1; i >= 0; --i) {
+        double sum = 0;
+        for (int j = i + 1; j < size; ++j)
+            sum += U[i][j] * x[j];
+        double U_ii_mul_x = y[i] - sum;
+        x[i] = U_ii_mul_x / U[i][i];
+    }
 
     //compute residual
 
@@ -58,9 +103,9 @@ int main() {
     for (int i = 0; i < size; ++i) {
         double sum = 0;
         for (int j = 0; j < size; ++j) {
-            sum += orig_matrix[i][j] * x[j];
+            sum += matrix[i][j] * x[j];
         }
-        residual[i] = sum - orig_matrix[i][size];
+        residual[i] = sum - matrix[i][size];
     }
 
 
@@ -72,6 +117,33 @@ int main() {
             cout << matrix[i][j] << ' ';
         }
         cout << matrix[i][size] << endl;
+    }
+    cout << endl;
+
+    //write L[][]
+    cout << "write L[][]" << endl;
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            cout << L[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    //write U[][]
+    cout << "write U[][]" << endl;
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            cout << U[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    //write y[]
+    cout << "write y[]" << endl;
+    for (int i = 0; i < size; ++i) {
+        cout << y[i] << endl;
     }
     cout << endl;
 
@@ -96,14 +168,21 @@ int main() {
         delete[] matrix[i];
     }
 
-    //clean orig_matrix array
+    //clean U array
     for (int i = 0; i < size; ++i) {
-        delete[] orig_matrix[i];
+        delete[] U[i];
+    }
+
+    //clean L array
+    for (int i = 0; i < size; ++i) {
+        delete[] L[i];
     }
 
     delete[] matrix;
-    delete[] orig_matrix;
+    delete[] U;
+    delete[] L;
     delete[] x;
+    delete[] y;
     delete[] residual;
 
     return 0;
