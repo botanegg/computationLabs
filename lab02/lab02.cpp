@@ -20,6 +20,10 @@ int main() {
     fake_x[0] = 5;
     Vector b = A * fake_x;
 
+    cout << "vector b[]" << endl;
+    Utils::printVector(b);
+    cout << endl;
+
     Matrix A_Inverse = A.getInverse();
 
     cout << "matrix A[][]" << endl;
@@ -30,14 +34,27 @@ int main() {
     Utils::printMatrix(A_Inverse);
     cout << endl;
 
-    Vector x = Utils::solveSystemLU(A, b);
+    Vector x_LU = Utils::solveSystemLU(A, b);
 
-    cout << "vector x[]" << endl;
-    Utils::printVector(x);
+    cout << "vector x[] LU method" << endl;
+    Utils::printVector(x_LU);
     cout << endl;
 
-    cout << "residual[]" << endl;
-    Utils::printVector(Utils::computeResidual(A, x, b));
+    cout << "residual[] LU method" << endl;
+    Utils::printVector(Utils::computeResidual(A, x_LU, b));
+    cout << endl;
+
+    Vector x_Rotation = Utils::solveSystemRotation(A, b);
+
+    cout << "vector x[] Rotation method" << endl;
+    Utils::printVector(x_Rotation);
+    cout << endl;
+
+    cout << "residual[] Rotation method" << endl;
+    Utils::printVector(Utils::computeResidual(A, x_Rotation, b));
+    cout << endl;
+
+    cout << "Condition num is " << Utils::computeCondition(A);
     cout << endl;
 
     return 0;

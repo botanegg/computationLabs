@@ -1,5 +1,7 @@
 #include "vector.h"
 
+#include <cmath>
+
 double &Vector::operator[](size_t idx) {
     return _vec[idx];
 }
@@ -33,4 +35,12 @@ Vector Vector::operator-(Vector const &rhs) const {
         tmp[i] = this->_vec[i] - rhs[i];
     }
     return tmp;
+}
+
+double Vector::getNorm() const {
+    double sum = 0;
+    for (int i = 0; i < n; ++i) {
+        sum += abs(_vec[i]);
+    }
+    return sum;
 }

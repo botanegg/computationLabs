@@ -22,7 +22,7 @@ public:
 
     Vector operator*(const Vector &rhs) const;
 
-    Matrix getTransparent();
+    Matrix getTransparent() const;
 
     void setDimension(size_t n, size_t m);
 
@@ -30,7 +30,9 @@ public:
 
     static Matrix getE(size_t n, size_t m);
 
-    Matrix getInverse();
+    Matrix getInverse() const;
+
+    double getNorm() const;
 };
 
 #endif // SHARE_MATRIX_H

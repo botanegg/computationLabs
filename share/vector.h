@@ -22,6 +22,8 @@ public:
     void set0();
 
     static Vector get0(size_t n);
+
+    double getNorm() const;
 };
 
 #endif // SHARE_VECTOR_H

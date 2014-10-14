@@ -7,7 +7,7 @@ std::vector<double> &Matrix::operator[](size_t idx) {
     return _m[idx];
 }
 
-Matrix Matrix::getTransparent() {
+Matrix Matrix::getTransparent() const {
     Matrix nm;
 
     nm.setDimension(this->m, this->n);
@@ -93,7 +93,7 @@ const vector<double> &Matrix::operator[](size_t idx) const {
     return _m[idx];
 }
 
-Matrix Matrix::getInverse() {
+Matrix Matrix::getInverse() const {
     Matrix src(*this);
     Matrix mat = Matrix::getE(n, m);
 
@@ -143,4 +143,16 @@ Matrix Matrix::getInverse() {
     }
 
     return mat;
+}
+
+double Matrix::getNorm() const {
+    double max = 0;
+    for (size_t i = 0; i < n; ++i) {
+        double sum = 0;
+        for (size_t j = 0; j < n; ++j) {
+            sum += abs(_m[j][i]);
+        }
+        if (sum > max) max = sum;
+    }
+    return max;
 }
