@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <share/matrix.h>
+#include <share/utils.h>
+#include <share/vector.h>
 #include <memory.h>
 
 void deleteArr(double **arr, int size);
@@ -13,6 +16,21 @@ double *getResidual(double **matrix, double *x, int size);
 using namespace std;
 
 int main() {
+//    Matrix A;
+//    A.setDimension(3, 3);
+//
+//    A[0][0] = A[1][1] = A[2][2] = 1;
+//
+//    A = A.getTransparent();
+//    Utils::printMatrix(A);
+//
+//    Vector b = Vector::get0(3);
+//
+//    b[1] = 1;
+//
+//    Utils::printVector(b);
+//    Utils::printVector(A * b);
+
     double **matrix = NULL;
     double **L = NULL;
     double **U = NULL;
