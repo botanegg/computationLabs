@@ -1,5 +1,8 @@
 #include "matrix.h"
 
+#include <cmath>
+#include <iostream>
+
 std::vector<double> &Matrix::operator[](size_t idx) {
     return _m[idx];
 }
@@ -28,7 +31,7 @@ void Matrix::setDimension(size_t n, size_t m) {
     }
 }
 
-Matrix Matrix::operator*(Matrix &rhs) {
+Matrix Matrix::operator*(const Matrix &rhs) const {
     Matrix nm;
     nm.setDimension(this->m, rhs.n);
 
@@ -59,7 +62,7 @@ Matrix Matrix::getE(size_t n, size_t m) {
     return tmp;
 }
 
-Matrix Matrix::operator*(double d) {
+Matrix Matrix::operator*(const double d) const {
     Matrix nm;
     nm.setDimension(this->n, this->m);
 
@@ -72,9 +75,8 @@ Matrix Matrix::operator*(double d) {
     return nm;
 }
 
-Vector Matrix::operator*(Vector &rhs) {
-    Vector n;
-    n.setDimension(this->n);
+Vector Matrix::operator*(const Vector &rhs) const {
+    Vector n = Vector::get0(this->n);
 
     for (size_t i = 0; i < this->m; ++i) {
         double sum = 0;
@@ -89,4 +91,56 @@ Vector Matrix::operator*(Vector &rhs) {
 
 const vector<double> &Matrix::operator[](size_t idx) const {
     return _m[idx];
+}
+
+Matrix Matrix::getInverse() {
+    Matrix src(*this);
+    Matrix mat = Matrix::getE(n, m);
+
+    size_t size = this->n;
+
+    /* COMPUTE */
+    //compute matrix[][] ROT method
+    //forward
+
+    for (size_t i = 0; i < size; ++i) {
+        for (size_t j = i + 1; j < size; ++j) {
+            double a = src[i][i]; //a11 ... (diagonal element)
+            double b = src[j][i]; //a21 ... (next row element)
+            double c = a / sqrt(a * a + b * b);
+            double s = b / sqrt(a * a + b * b);
+            for (size_t k = i; k < size; ++k) {
+                double t1 = src[i][k]; //first row element
+                double t2 = src[j][k]; //next row element
+                src[i][k] = c * t1 + s * t2;
+                src[j][k] = -s * t1 + c * t2;
+
+                double h1 = mat[i][k]; //first row element
+                double h2 = mat[j][k]; //next row element
+                mat[i][k] = c * h1 + s * h2;
+                mat[j][k] = -s * h1 + c * h2;
+            }
+        }
+    }
+
+    for (size_t i = size - 1; i < size; --i) { //warning sign trick
+        double d = 1.0 / src[i][i];
+
+        for (size_t j = 0; j < size; ++j) {
+            src[i][j] *= d;
+            mat[i][j] *= d;
+        }
+
+        for (size_t j = i - 1; j < size; --j) {
+            if (src[j][i] != 0) {
+                double h = src[j][i];
+                for (size_t k = 0; k < size; ++k) {
+                    src[j][k] = src[j][k] - src[i][k] * h;
+                    mat[j][k] = mat[j][k] - mat[i][k] * h;
+                }
+            }
+        }
+    }
+
+    return mat;
 }

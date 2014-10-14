@@ -16,11 +16,11 @@ public:
 
     const vector<double> &operator[](size_t idx) const;
 
-    Matrix operator*(Matrix &rhs);
+    Matrix operator*(const Matrix &rhs) const;
 
-    Matrix operator*(double d);
+    Matrix operator*(const double d) const;
 
-    Vector operator*(Vector &rhs);
+    Vector operator*(const Vector &rhs) const;
 
     Matrix getTransparent();
 
@@ -29,6 +29,8 @@ public:
     void setE();
 
     static Matrix getE(size_t n, size_t m);
+
+    Matrix getInverse();
 };
 
 #endif // SHARE_MATRIX_H

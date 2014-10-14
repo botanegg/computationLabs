@@ -12,7 +12,10 @@ public:
     size_t n;
 
     double &operator[](size_t idx);
+
     const double &operator[](size_t idx) const;
+
+    Vector operator-(const Vector &rhs) const;
 
     void setDimension(size_t n);
 

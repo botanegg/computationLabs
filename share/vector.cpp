@@ -25,3 +25,12 @@ Vector Vector::get0(size_t n) {
 const double &Vector::operator[](size_t idx) const {
     return _vec[idx];
 }
+
+Vector Vector::operator-(Vector const &rhs) const {
+    Vector tmp;
+    tmp.setDimension(this->n);
+    for (size_t i = 0; i < this->n; ++i) {
+        tmp[i] = this->_vec[i] - rhs[i];
+    }
+    return tmp;
+}
