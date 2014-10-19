@@ -4,6 +4,8 @@
 #include "matrix.h"
 #include "vector.h"
 
+#include <istream>
+
 class Utils {
 public:
     static void printMatrix(const Matrix &m);
@@ -17,6 +19,10 @@ public:
     static Vector computeResidual(const Matrix &_A, const Vector &_x, const Vector &_b);
 
     static double computeCondition(const Matrix &_A);
+
+    static void readMatrix(istream &from, Matrix &to);
+
+    static void readVector(istream &from, Vector &to);
 };
 
 #endif // SHARE_UTILS_H

@@ -151,3 +151,17 @@ double Utils::computeCondition(const Matrix &_A) {
     Matrix A_1 = _A.getInverse();
     return _A.getNorm() * A_1.getNorm();
 }
+
+void Utils::readMatrix(istream &from, Matrix &to) {
+    for (size_t i = 0; i < to.m; ++i) {
+        for (size_t j = 0; j < to.n; ++j) {
+            from >> to[i][j];
+        }
+    }
+}
+
+void Utils::readVector(istream &from, Vector &to) {
+    for (size_t i = 0; i < to.n; ++i) {
+        from >> to[i];
+    }
+}

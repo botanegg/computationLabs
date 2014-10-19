@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <share/vector.h>
 #include <share/matrix.h>
 #include <share/utils.h>
@@ -55,6 +56,15 @@ int main() {
     cout << endl;
 
     cout << "Condition num is " << Utils::computeCondition(A);
+    cout << endl;
+
+    fstream file("input.txt");
+
+    Matrix lab01 = Matrix::getE(4, 4);
+
+    Utils::readMatrix(file, lab01);
+
+    cout << "Condition num lab01 is " << Utils::computeCondition(lab01);
     cout << endl;
 
     return 0;
