@@ -23,6 +23,10 @@ add_executable(lab01_lu ${SOURCE_FILES})
 set(SOURCE_FILES lab02/lab02.cpp)
 add_executable(lab02 ${SOURCE_FILES})
 
+#lab 03
+set(SOURCE_FILES lab03/lab03.cpp)
+add_executable(lab03 ${SOURCE_FILES})
+
 #gen_gilbert_input
 set(SOURCE_FILES gen_gilbert_input.cpp)
 add_executable(gen_gilbert_input ${SOURCE_FILES})

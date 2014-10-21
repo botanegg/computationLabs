@@ -18,6 +18,8 @@ public:
 
     Matrix operator*(const Matrix &rhs) const;
 
+    Matrix operator+(const Matrix &rhs) const;
+
     Matrix operator*(const double d) const;
 
     Vector operator*(const Vector &rhs) const;

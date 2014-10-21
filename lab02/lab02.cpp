@@ -64,6 +64,8 @@ int main() {
 
     Utils::readMatrix(file, lab01);
 
+    Utils::printMatrix(lab01);
+
     cout << "Condition num lab01 is " << Utils::computeCondition(lab01);
     cout << endl;
 

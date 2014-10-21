@@ -156,3 +156,16 @@ double Matrix::getNorm() const {
     }
     return max;
 }
+
+Matrix Matrix::operator+(Matrix const &rhs) const {
+    Matrix nm;
+    nm.setDimension(this->n, this->m);
+
+    for (size_t i = 0; i < this->m; ++i) {
+        for (size_t j = 0; j < this->n; ++j) {
+            nm[i][j] = this->_m[i][j] + rhs._m[i][j];
+        }
+    }
+
+    return nm;
+}

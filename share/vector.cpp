@@ -44,3 +44,19 @@ double Vector::getNorm() const {
     }
     return sum;
 }
+
+Vector Vector::operator*(const double d) const {
+    Vector tmp;
+    tmp.setDimension(this->n);
+    for (size_t i = 0; i < this->n; ++i) tmp[i] = _vec[i] * d;
+    return tmp;
+}
+
+Vector Vector::operator+(const Vector &rhs) const {
+    Vector tmp;
+    tmp.setDimension(this->n);
+    for (size_t i = 0; i < this->n; ++i) {
+        tmp[i] = this->_vec[i] + rhs[i];
+    }
+    return tmp;
+}

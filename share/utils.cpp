@@ -165,3 +165,33 @@ void Utils::readVector(istream &from, Vector &to) {
         from >> to[i];
     }
 }
+
+Vector Utils::solveSOR(const Matrix &_A, const Vector &_b, double w) {
+    Vector x = Vector::get0(_A.n);
+    Vector x_n = x;
+    size_t step = 0;
+
+    do {
+        step++;
+        x = x_n;
+        for (int j = 0; j < _A.m; ++j) {
+            x_n[j] = w * _b[j] / _A[j][j] + (1 - w) * x[j];
+
+            for (int k = 0; k < j; ++k) {
+                x_n[j] -= w * _A[j][k] / _A[j][j] * x_n[k];
+
+            }
+
+            for (int k = j + 1; k < _A.n; ++k) {
+                x_n[j] -= w * _A[j][k] / _A[j][j] * x[k];
+            }
+        }
+    }
+    while ((x - x_n).getNorm() > 0.00001 && step < ITTR_MAX_STEPS);
+
+    return x_n;
+}
+
+Vector Utils::solveGZ(Matrix const &_A, Vector const &_b) {
+    return solveSOR(_A, _b, 1.0);
+}

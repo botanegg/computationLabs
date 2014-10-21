@@ -17,6 +17,10 @@ public:
 
     Vector operator-(const Vector &rhs) const;
 
+    Vector operator+(const Vector &rhs) const;
+
+    Vector operator*(const double d) const;
+
     void setDimension(size_t n);
 
     void set0();
