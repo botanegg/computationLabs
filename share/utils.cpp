@@ -122,9 +122,9 @@ Vector Utils::solveSystemRotation(const Matrix &_A, const Vector &_b) {
                 A[j][k] = -s * t1 + c * t2;
             }
 
-            double t1 = b[j]; //first row element
+            double t1 = b[i]; //first row element
             double t2 = b[j]; //next row element
-            b[j] = c * t1 + s * t2;
+            b[i] = c * t1 + s * t2;
             b[j] = -s * t1 + c * t2;
 
         }
