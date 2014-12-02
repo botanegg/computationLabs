@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <error.h>
 
 void Utils::printMatrix(const Matrix &m) {
     size_t mn_d1 = m.n - 1;
@@ -220,8 +221,52 @@ double Utils::powerLambdaMethod(const Matrix &_A, double eps) {
         y = _A * x;
         nextLambda = x * y;
         x = y / y.length();
-        cout << endl;
     } while (abs(nextLambda - prevLambda) > eps && step < ITTR_MAX_STEPS);
 
     return nextLambda;
+}
+
+double Utils::rotationLambdaMethod(const Matrix &_A, double eps) {
+    size_t n = _A.n;
+    Matrix M = _A;
+
+    double error = 1;
+    size_t step = 0;
+    while (error > eps && step < ITTR_MAX_STEPS) {
+        step++;
+        size_t mi = 0, mj = 1;
+        for (size_t i = 0; i < n; ++i)
+            for (size_t j = 0; j < n; ++j)
+                if (i != j) if (abs(M[i][j]) > abs(M[mi][mj])) {
+                    mi = i;
+                    mj = j;
+                }
+
+        double k = sqrt(1 - (4 * M[mi][mj] * M[mi][mj]) / ((M[mi][mi] - M[mj][mj]) * (M[mi][mi] - M[mj][mj]) + (4 * M[mi][mj] * M[mi][mj])));
+        double c = sqrt((1 + k) / 2);
+        double s = sqrt((1 - k) / 2);
+        if (M[mi][mi] == M[mj][mj]) {
+            if (M[mi][mj] < 0) s = -s;
+        }
+        else if ((M[mi][mi] - M[mj][mj]) / M[mi][mj] < 0) s = -s;
+        cout << "mi " << mi << " mj " << mj << endl;
+        Matrix u = Matrix::getE(n, n);
+        u[mi][mi] = u[mj][mj] = c;
+        u[mi][mj] = -s;
+        u[mj][mi] = s;
+        if (step < 10) printMatrix(u);
+        Matrix uT = u.getInverse();
+        M = (uT * M) * u;
+        if (step < 10) printMatrix(M);
+
+        error = 0;
+        for (size_t i = 0; i < n; ++i)
+            for (size_t j = 0; j < n; ++j)
+                if (i != j) error += abs(M[i][j]);
+        cout << endl << error << endl;
+        cout << endl;
+    }
+
+    printMatrix(M);
+
 }
