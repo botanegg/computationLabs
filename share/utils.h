@@ -29,6 +29,8 @@ public:
     static void readMatrix(istream &from, Matrix &to);
 
     static void readVector(istream &from, Vector &to);
+
+    static double powerLambdaMethod(const Matrix &_A, double eps);
 };
 
 #endif // SHARE_UTILS_H

@@ -195,3 +195,33 @@ Vector Utils::solveSOR(const Matrix &_A, const Vector &_b, double w) {
 Vector Utils::solveGZ(Matrix const &_A, Vector const &_b) {
     return solveSOR(_A, _b, 1.0);
 }
+
+double Utils::powerLambdaMethod(const Matrix &_A, double eps) {
+    size_t n = _A.n;
+    Vector x;
+    x.setDimension(n);
+    for (size_t j = 0; j < n; ++j) {
+        x[j] = 1 / sqrt(n);
+    }
+
+    Vector y = _A * x;
+
+
+    double prevLambda;
+    double nextLambda = x * y;
+
+    x = y / y.length();
+
+    size_t step = 0;
+
+    do {
+        step++;
+        prevLambda = nextLambda;
+        y = _A * x;
+        nextLambda = x * y;
+        x = y / y.length();
+        cout << endl;
+    } while (abs(nextLambda - prevLambda) > eps && step < ITTR_MAX_STEPS);
+
+    return nextLambda;
+}

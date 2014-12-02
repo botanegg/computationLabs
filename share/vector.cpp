@@ -60,3 +60,21 @@ Vector Vector::operator+(const Vector &rhs) const {
     }
     return tmp;
 }
+
+double Vector::length() const {
+    double res = 0;
+    for (size_t i = 0; i < this->n; ++i) {
+        res += _vec[i] * _vec[i];
+    }
+    return sqrt(res);
+}
+
+Vector Vector::operator/(const double d) const {
+    return (*this) * (1 / d);
+}
+
+double Vector::operator*(const Vector &rhs) const {
+    double res = 0;
+    for (size_t i = 0; i < this->n; ++i) res += _vec[i] * rhs[i];
+    return res;
+}
