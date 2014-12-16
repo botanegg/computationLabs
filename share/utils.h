@@ -33,6 +33,8 @@ public:
     static double powerLambdaMethod(const Matrix &_A, double eps);
 
     static double rotationLambdaMethod(const Matrix &_A, double eps);
+
+    //static double solveNewtonLinearEquation(Drivable )
 };
 
 #endif // SHARE_UTILS_H

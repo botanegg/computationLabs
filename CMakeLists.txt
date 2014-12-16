@@ -8,6 +8,7 @@ set(LIB_SOURCE_FILES
     share/matrix.cpp
     share/utils.cpp
     share/vector.cpp
+    share/derivable.cpp
 )
 add_library(computation ${LIB_SOURCE_FILES})
 link_libraries(computation)
@@ -30,6 +31,10 @@ add_executable(lab03 ${SOURCE_FILES})
 #lab 04
 set(SOURCE_FILES lab04/lab04.cpp)
 add_executable(lab04 ${SOURCE_FILES})
+
+#lab 04
+set(SOURCE_FILES lab05/lab05.cpp)
+add_executable(lab05 ${SOURCE_FILES})
 
 #gen_gilbert_input
 set(SOURCE_FILES gen_gilbert_input.cpp)
