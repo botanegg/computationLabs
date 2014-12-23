@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <cmath>
-#include <error.h>
 
 void Utils::printMatrix(const Matrix &m) {
     size_t mn_d1 = m.n - 1;
@@ -195,6 +194,28 @@ Vector Utils::solveSOR(const Matrix &_A, const Vector &_b, double w) {
 
 Vector Utils::solveGZ(Matrix const &_A, Vector const &_b) {
     return solveSOR(_A, _b, 1.0);
+}
+
+Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
+    size_t n = _A.n;
+    Vector P = Vector::get0(n);
+    Vector Q = Vector::get0(n);
+    P[0] = _A[0][1] / _A[0][0];
+    Q[0] = -_b[0] / _A[0][0];
+
+    for (int i = 1; i < n; i++) {
+        auto yy = (i + 1) == n ? 0 : _A[i][i + 1];
+        P[i] = yy / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
+        Q[i] = (_A[i][i - 1] * Q[i - 1] - _b[i]) / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
+    }
+
+    Vector X = Vector::get0(n);
+    X[n - 1] = Q[n - 1];
+    for (int i = n - 1; i > 1; i--) {
+        X[i-1] = X[i] * P[i-1] + Q[i-1];
+    }
+
+    return X;
 }
 
 double Utils::powerLambdaMethod(const Matrix &_A, double eps) {

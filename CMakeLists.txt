@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(computationLabs)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 include_directories(${CMAKE_SOURCE_DIR})
 
 #lib
@@ -32,9 +34,43 @@ add_executable(lab_03 ${SOURCE_FILES})
 set(SOURCE_FILES lab04/lab04.cpp)
 add_executable(lab_04 ${SOURCE_FILES})
 
-#lab 04
+#lab 05
 set(SOURCE_FILES lab05/lab05.cpp)
 add_executable(lab_05 ${SOURCE_FILES})
+
+
+#########################################################
+# FIND GLUT
+#########################################################
+find_package(GLUT REQUIRED)
+include_directories(${GLUT_INCLUDE_DIRS})
+link_directories(${GLUT_LIBRARY_DIRS})
+add_definitions(${GLUT_DEFINITIONS})
+if(NOT GLUT_FOUND)
+    message(ERROR " GLUT not found!")
+endif(NOT GLUT_FOUND)
+#########################################################
+# FIND OPENGL
+#########################################################
+find_package(OpenGL REQUIRED)
+include_directories(${OpenGL_INCLUDE_DIRS})
+link_directories(${OpenGL_LIBRARY_DIRS})
+add_definitions(${OpenGL_DEFINITIONS})
+if(NOT OPENGL_FOUND)
+    message(ERROR " OPENGL not found!")
+endif(NOT OPENGL_FOUND)
+
+
+
+
+#lab 06
+set(SOURCE_FILES lab06/lab06.cpp)
+add_executable(lab_06 ${SOURCE_FILES})
+
+target_link_libraries(lab_06
+	${OPENGL_LIBRARIES}
+	${GLUT_LIBRARY}
+)
 
 #gen_gilbert_input
 set(SOURCE_FILES gen_gilbert_input.cpp)

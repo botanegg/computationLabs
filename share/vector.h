@@ -6,9 +6,9 @@
 using namespace std;
 
 class Vector {
-private:
-    vector<double> _vec;
 public:
+    vector<double> _vec;
+
     size_t n;
 
     double &operator[](size_t idx);

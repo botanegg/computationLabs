@@ -20,6 +20,8 @@ public:
 
     static Vector solveGZ(const Matrix &_A, const Vector &_b);
 
+    static Vector solveProgon(const Matrix &_A, const Vector &_b);
+
     static Vector solveSystemRotation(const Matrix &_A, const Vector &_b);
 
     static Vector computeResidual(const Matrix &_A, const Vector &_x, const Vector &_b);
