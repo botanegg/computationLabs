@@ -27,7 +27,8 @@ double L(double x, Vector _x, Vector _y) {
 
 
 double testF(double x) {
-    return sin(sin(x)); // for example
+return 1.0/(1+25*x*x);  
+//return sin(sin(x)); // for example
 }
 
 
@@ -148,8 +149,8 @@ void draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glTranslatef(50, 480 - 100, 0);
-    glScalef(20, -20, 1);
+    glTranslatef(150, 480 - 150, 0);
+    glScalef(100, -100, 1);
     glBegin(GL_LINES);
     {
         glColor3f(1.0, 0, 0);
@@ -167,8 +168,8 @@ void draw() {
     glColor3f(0.1, 0.1, 0.1);
     int N = 100;
     int M = 100;
-    float dx = 1;
-    float dy = 1;
+    float dx = 0.1;
+    float dy = 0.1;
     float x0 = -(float) N * dx / 2;
     float y0 = -(float) M * dy / 2;
     glBegin(GL_LINES);
@@ -190,8 +191,8 @@ void draw() {
     glColor3f(0.7, 0.7, 0.7);
     glBegin(GL_LINE_STRIP);
     {
-        for (int i = -100; i < 500; i++) {
-            double x = i / 10.0;
+        for (int i = -150; i < 150; i++) {
+            double x = i / 100.0;
             glVertex3f(x, testF(x), 0.5f);
         }
     }
@@ -204,17 +205,18 @@ void draw() {
 
 
     for (int i = 0; i <= n; i++) {
-        x_values[i] = i  ;
-        y_values[i] = testF(i );
+        x_values[i] = i/5.0 - 1;
+        y_values[i] = testF(x_values[i]);
     }
 
     //interpolate points
     glPointSize(5);
-    glColor3f(1, 0, 0);
-    glBegin(GL_POINT);
+    glColor3f(1, 0.5, 0.5);
+    glBegin(GL_LINES);
     {
         for (int i = 0; i <= n; i++) {
-            glVertex3f(x_values[i], y_values[i], 0.7f);
+            glVertex3f(x_values[i], y_values[i]+0.05, 0.7f);
+            glVertex3f(x_values[i], y_values[i]-0.05, 0.7f);
         }
     }
     glEnd();
@@ -224,8 +226,8 @@ void draw() {
     glColor3f(0, 1, 1);
     glBegin(GL_LINE_STRIP);
     {
-        for (int i = -100; i < 500; i++) {
-            double x = i / 10.0;
+        for (int i = -150; i < 150; i++) {
+            double x = i / 100.0;
             glVertex3f(x, L(x, x_values, y_values), 0.5f);
         }
     }
@@ -236,9 +238,9 @@ void draw() {
     glColor3f(1, 1, 0);
     glBegin(GL_LINE_STRIP);
     {
-        for (int i = -100; i < 500; i++) {
-            double x = i / 10.0;
-            glVertex3f(x, spline(i / 10.0, x_values, y_values), 0.5f);
+        for (int i = -150; i < 150; i++) {
+            double x = i / 100.0;
+            glVertex3f(x, spline(x, x_values, y_values), 0.5f);
         }
     }
     glEnd();
