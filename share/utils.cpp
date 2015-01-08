@@ -5,8 +5,8 @@
 
 void Utils::printMatrix(const Matrix &m) {
     size_t mn_d1 = m.n - 1;
-    for (int i = 0; i < m.m; ++i) {
-        for (int j = 0; j < m.n; ++j) {
+    for (size_t i = 0; i < m.m; ++i) {
+        for (size_t j = 0; j < m.n; ++j) {
             cout << m[i][j];
             if (j != mn_d1) cout << ' ';
         }
@@ -16,7 +16,7 @@ void Utils::printMatrix(const Matrix &m) {
 
 void Utils::printVector(const Vector &v) {
     size_t vn_d1 = v.n - 1;
-    for (int i = 0; i < v.n; ++i) {
+    for (size_t i = 0; i < v.n; ++i) {
         cout << v[i];
         if (i != vn_d1) cout << ' ';
     }
@@ -44,7 +44,7 @@ Vector Utils::solveSystemLU(const Matrix &_A, const Vector &_b) {
     for (size_t i = 0; i < size; ++i) {
         for (size_t j = 0; j < size; ++j) {
             double sum = 0;
-            for (int k = 0; k < i; ++k) {
+            for (size_t k = 0; k < i; ++k) {
                 sum += L[i][k] * U[k][j];
             }
 
@@ -109,13 +109,13 @@ Vector Utils::solveSystemRotation(const Matrix &_A, const Vector &_b) {
     //compute matrix[][] ROT method
     //forward
 
-    for (int i = 0; i < size; ++i) {
-        for (int j = i + 1; j < size; ++j) {
+    for (size_t i = 0; i < size; ++i) {
+        for (size_t j = i + 1; j < size; ++j) {
             double at = A[i][i]; //a11 ... (diagonal element)
             double bt = A[j][i]; //a21 ... (next row element)
             double c = at / sqrt(at * at + bt * bt);
             double s = bt / sqrt(at * at + bt * bt);
-            for (int k = i; k < size; ++k) {
+            for (size_t k = i; k < size; ++k) {
                 double t1 = A[i][k]; //first row element
                 double t2 = A[j][k]; //next row element
                 A[i][k] = c * t1 + s * t2;
@@ -174,15 +174,15 @@ Vector Utils::solveSOR(const Matrix &_A, const Vector &_b, double w) {
     do {
         step++;
         x = x_n;
-        for (int j = 0; j < _A.m; ++j) {
+        for (size_t j = 0; j < _A.m; ++j) {
             x_n[j] = w * _b[j] / _A[j][j] + (1 - w) * x[j];
 
-            for (int k = 0; k < j; ++k) {
+            for (size_t k = 0; k < j; ++k) {
                 x_n[j] -= w * _A[j][k] / _A[j][j] * x_n[k];
 
             }
 
-            for (int k = j + 1; k < _A.n; ++k) {
+            for (size_t k = j + 1; k < _A.n; ++k) {
                 x_n[j] -= w * _A[j][k] / _A[j][j] * x[k];
             }
         }
@@ -203,7 +203,7 @@ Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
     P[0] = _A[0][1] / _A[0][0];
     Q[0] = -_b[0] / _A[0][0];
 
-    for (int i = 1; i < n; i++) {
+    for (size_t i = 1; i < n; i++) {
         auto yy = (i + 1) == n ? 0 : _A[i][i + 1];
         P[i] = yy / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
         Q[i] = (_A[i][i - 1] * Q[i - 1] - _b[i]) / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
@@ -211,7 +211,7 @@ Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
 
     Vector X = Vector::get0(n);
     X[n - 1] = Q[n - 1];
-    for (int i = n - 1; i > 1; i--) {
+    for (size_t i = n - 1; i > 1; i--) {
         X[i-1] = X[i] * P[i-1] + Q[i-1];
     }
 
@@ -223,7 +223,7 @@ double Utils::powerLambdaMethod(const Matrix &_A, double eps) {
     Vector x;
     x.setDimension(n);
     for (size_t j = 0; j < n; ++j) {
-        x[j] = 1 / sqrt(n);
+        x[j] = 1 / sqrt((double)n);
     }
 
     Vector y = _A * x;
@@ -266,7 +266,7 @@ double Utils::rotationLambdaMethod(const Matrix &_A, double eps) {
         double k = sqrt(1 - (4 * M[mi][mj] * M[mi][mj]) / ((M[mi][mi] - M[mj][mj]) * (M[mi][mi] - M[mj][mj]) + (4 * M[mi][mj] * M[mi][mj])));
         double c = sqrt((1 + k) / 2);
         double s = sqrt((1 - k) / 2);
-        if (M[mi][mi] == M[mj][mj]) {
+        if (fabs(M[mi][mi] - M[mj][mj]) < _EPS) {
             if (M[mi][mj] < 0) s = -s;
         }
         else if ((M[mi][mi] - M[mj][mj]) / M[mi][mj] < 0) s = -s;
@@ -289,5 +289,5 @@ double Utils::rotationLambdaMethod(const Matrix &_A, double eps) {
     }
 
     printMatrix(M);
-
+	return 0; //!TODO FIX IT
 }

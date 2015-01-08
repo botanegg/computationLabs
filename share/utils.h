@@ -7,6 +7,7 @@
 #include <istream>
 
 #define ITTR_MAX_STEPS 10000
+#define _EPS 0.000000001
 
 class Utils {
 public:

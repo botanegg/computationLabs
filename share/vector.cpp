@@ -6,9 +6,9 @@ double &Vector::operator[](size_t idx) {
     return _vec[idx];
 }
 
-void Vector::setDimension(size_t n) {
-    this->n = n;
-    _vec.resize(n);
+void Vector::setDimension(size_t _n) {
+    this->n = _n;
+    _vec.resize(_n);
 }
 
 void Vector::set0() {
@@ -17,9 +17,9 @@ void Vector::set0() {
     }
 }
 
-Vector Vector::get0(size_t n) {
+Vector Vector::get0(size_t _n) {
     Vector tmp;
-    tmp.setDimension(n);
+    tmp.setDimension(_n);
     tmp.set0();
     return tmp;
 }
@@ -39,7 +39,7 @@ Vector Vector::operator-(Vector const &rhs) const {
 
 double Vector::getNorm() const {
     double sum = 0;
-    for (int i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
         sum += abs(_vec[i]);
     }
     return sum;
