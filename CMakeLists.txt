@@ -61,8 +61,6 @@ if(NOT OPENGL_FOUND)
 endif(NOT OPENGL_FOUND)
 
 
-
-
 #lab 06
 set(SOURCE_FILES lab06/lab06.cpp)
 add_executable(lab_06 ${SOURCE_FILES})
@@ -71,7 +69,3 @@ target_link_libraries(lab_06
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
 )
-
-#gen_gilbert_input
-set(SOURCE_FILES gen_gilbert_input.cpp)
-add_executable(gen_gilbert_input ${SOURCE_FILES})
