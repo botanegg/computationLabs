@@ -1,12 +1,7 @@
 #include <iostream>
-#include <cmath>
 #include <GL/glut.h>
-#include <fstream>
 #include <share/matrix.h>
-#include <share/vector.h>
 #include <share/utils.h>
-#include <algorithm>
-
 
 using namespace std;
 
@@ -27,14 +22,12 @@ double L(double x, Vector _x, Vector _y) {
 
 
 double testF(double x) {
-return 1.0/(1+25*x*x);  
+    return 1.0 / (1 + 25 * x * x);
 //return sin(sin(x)); // for example
 }
 
-
 double spline(double x, Vector _x, Vector _y) {
     size_t n = _x.n - 1;
-    // cout << n << endl << endl;
 
     Matrix A = Matrix::getE(n + 2, n + 2);
     Vector b = Vector::get0(n + 2);
@@ -49,11 +42,6 @@ double spline(double x, Vector _x, Vector _y) {
     }
 
     Vector _SSCC = Utils::solveProgon(A, b);
-    //Utils::printVector(_SSCC);
-    //cout << endl;
-//    Vector _SSCC2 = Utils::solveProgon(A, b);
-//
-//    Utils::printVector(_SSCC2); cout << endl;
     Vector AA = Vector::get0(n + 1);
     Vector BB = AA;
     Vector CC = AA;
@@ -72,20 +60,6 @@ double spline(double x, Vector _x, Vector _y) {
     CC[n] = _SSCC[n];
     DD[n] = -_SSCC[n] / ((_x[n] - _x[n - 1]) * 3);
 
-//    Utils::printVector(b);
-//    cout << endl;
-//    Utils::printMatrix(A);
-//    cout << endl;
-//
-//    Utils::printVector(AA);
-//    cout << endl;
-//    Utils::printVector(BB);
-//    cout << endl;
-//    Utils::printVector(CC);
-//    cout << endl;
-//    Utils::printVector(DD);
-//    cout << endl;
-
     double x_min = _x[0];
     double x_max = _x[n];
     size_t pos;
@@ -97,12 +71,10 @@ double spline(double x, Vector _x, Vector _y) {
         auto v = _x._vec;
         pos = lower_bound(v.begin(), v.end(), x) - v.begin();
     }
-    //cout << pos << endl;
     double xh = (x - _x[pos - 1]);
 
     return AA[pos] + BB[pos] * xh + CC[pos] * xh * xh + DD[pos] * xh * xh * xh;
 }
-
 
 /* executed when a regular key is pressed */
 void keyboardDown(unsigned char key, int x, int y) {
@@ -124,8 +96,6 @@ void keyboardUp(unsigned char key, int x, int y) {
 
 /* reshaped window */
 void reshape(int width, int height) {
-    GLfloat fieldOfView = 72.0f;
-
     glViewport(0, 0, (GLsizei) width, (GLsizei) height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -193,11 +163,10 @@ void draw() {
     {
         for (int i = -150; i < 150; i++) {
             double x = i / 100.0;
-            glVertex3f(x, testF(x), 0.5f);
+            glVertex3f((GLfloat) x, (GLfloat) testF(x), 0.5f);
         }
     }
     glEnd();
-
 
     const int n = 10;
     Vector x_values = Vector::get0(n + 1);
@@ -205,7 +174,7 @@ void draw() {
 
 
     for (int i = 0; i <= n; i++) {
-        x_values[i] = i/5.0 - 1;
+        x_values[i] = i / 5.0 - 1;
         y_values[i] = testF(x_values[i]);
     }
 
@@ -215,24 +184,22 @@ void draw() {
     glBegin(GL_LINES);
     {
         for (int i = 0; i <= n; i++) {
-            glVertex3f(x_values[i], y_values[i]+0.05, 0.7f);
-            glVertex3f(x_values[i], y_values[i]-0.05, 0.7f);
+            glVertex3f((GLfloat) x_values[i], (GLfloat) (y_values[i] + 0.05), 0.7f);
+            glVertex3f((GLfloat) x_values[i], (GLfloat) (y_values[i] - 0.05), 0.7f);
         }
     }
     glEnd();
 
-
-    //lagrang
+    //Lagrange
     glColor3f(0, 1, 1);
     glBegin(GL_LINE_STRIP);
     {
         for (int i = -150; i < 150; i++) {
             double x = i / 100.0;
-            glVertex3f(x, L(x, x_values, y_values), 0.5f);
+            glVertex3f((GLfloat) x, (GLfloat) L(x, x_values, y_values), 0.5f);
         }
     }
     glEnd();
-
 
     //spline
     glColor3f(1, 1, 0);
@@ -240,21 +207,12 @@ void draw() {
     {
         for (int i = -150; i < 150; i++) {
             double x = i / 100.0;
-            glVertex3f(x, spline(x, x_values, y_values), 0.5f);
+            glVertex3f((GLfloat) x, (GLfloat) spline(x, x_values, y_values), 0.5f);
         }
     }
     glEnd();
 
-
-//    for (int i = 0; i < 20; i++) {
-//        cout << i << endl;
-//        cout <<  << endl;
-//        cout << testF(i / 10.0) << endl << endl;
-//    }
-
-
     glFlush();
-
 
     //glDisable(GL_MULTISAMPLE);
 }
@@ -329,9 +287,7 @@ int main(int argc, char **argv) {
     glutIdleFunc(idle);
     glutIgnoreKeyRepeat(true); // ignore keys held down
 
-
     initGL(640, 480);
-
 
     glutMainLoop();
     return 0;
