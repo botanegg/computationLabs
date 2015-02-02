@@ -22,7 +22,7 @@ Derivable system_f1x(double x) {
 
 Derivable system_f1y(double y) {
     Derivable yd = Derivable::IndependendVariable(y);
-    return ((-1)*yd) - 1.2;
+    return ((-1) * yd) - 1.2;
 }
 
 
@@ -78,8 +78,10 @@ void system() {
         Utils::printVector(xk);
     }
 
-    cout << "FK = "; Utils::printVector(fk);
-    cout << "XK = "; Utils::printVector(xk);
+    cout << "FK = ";
+    Utils::printVector(fk);
+    cout << "XK = ";
+    Utils::printVector(xk);
 
     cout << "###" << endl << endl;
 }

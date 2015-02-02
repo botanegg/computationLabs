@@ -212,7 +212,7 @@ Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
     Vector X = Vector::get0(n);
     X[n - 1] = Q[n - 1];
     for (size_t i = n - 1; i > 1; i--) {
-        X[i-1] = X[i] * P[i-1] + Q[i-1];
+        X[i - 1] = X[i] * P[i - 1] + Q[i - 1];
     }
 
     return X;
@@ -223,7 +223,7 @@ double Utils::powerLambdaMethod(const Matrix &_A, double eps) {
     Vector x;
     x.setDimension(n);
     for (size_t j = 0; j < n; ++j) {
-        x[j] = 1 / sqrt((double)n);
+        x[j] = 1 / sqrt((double) n);
     }
 
     Vector y = _A * x;
@@ -289,5 +289,5 @@ double Utils::rotationLambdaMethod(const Matrix &_A, double eps) {
     }
 
     printMatrix(M);
-	return 0; //!TODO FIX IT
+    return 0; //!TODO FIX IT
 }
