@@ -69,3 +69,7 @@ target_link_libraries(lab_06
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
 )
+
+#lab 07
+set(SOURCE_FILES lab07/lab07.cpp)
+add_executable(lab_07 ${SOURCE_FILES})
