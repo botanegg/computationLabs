@@ -73,3 +73,7 @@ target_link_libraries(lab_06
 #lab 07
 set(SOURCE_FILES lab07/lab07.cpp)
 add_executable(lab_07 ${SOURCE_FILES})
+
+#lab 08
+set(SOURCE_FILES lab08/lab08.cpp)
+add_executable(lab_08 ${SOURCE_FILES})
