@@ -77,3 +77,7 @@ add_executable(lab_07 ${SOURCE_FILES})
 #lab 08
 set(SOURCE_FILES lab08/lab08.cpp)
 add_executable(lab_08 ${SOURCE_FILES})
+
+#lab 09
+set(SOURCE_FILES lab09/lab09.cpp)
+add_executable(lab_09 ${SOURCE_FILES})
