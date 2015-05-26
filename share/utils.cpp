@@ -198,24 +198,41 @@ Vector Utils::solveGZ(Matrix const &_A, Vector const &_b) {
 
 Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
     size_t n = _A.n;
-    Vector P = Vector::get0(n);
-    Vector Q = Vector::get0(n);
-    P[0] = _A[0][1] / _A[0][0];
-    Q[0] = -_b[0] / _A[0][0];
+    Vector a = Vector::get0(n);
+    Vector b = Vector::get0(n);
+    Vector c = Vector::get0(n);
 
-    for (size_t i = 1; i < n; i++) {
-        auto yy = (i + 1) == n ? 0 : _A[i][i + 1];
-        P[i] = yy / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
-        Q[i] = (_A[i][i - 1] * Q[i - 1] - _b[i]) / (-_A[i][i] - _A[i][i - 1] * P[i - 1]);
+    Vector f = _b;
+
+    for (int i = 1; i < n; i++) {
+        a[i] = _A[i][i - 1];
     }
 
-    Vector X = Vector::get0(n);
-    X[n - 1] = Q[n - 1];
-    for (size_t i = n - 1; i > 1; i--) {
-        X[i - 1] = X[i] * P[i - 1] + Q[i - 1];
+    for (int i = 0; i < n; i++) {
+        c[i] = _A[i][i];
     }
 
-    return X;
+
+    for (int i = 0; i < n - 1; i++) {
+        b[i] = _A[i][i + 1];
+    }
+
+    Vector x = Vector::get0(n);
+
+    float m;
+    for (int i = 1; i < n; i++) {
+        m = a[i] / c[i - 1];
+        c[i] = c[i] - m * b[i - 1];
+        f[i] = f[i] - m * f[i - 1];
+    }
+
+    x[n - 1] = f[n - 1] / c[n - 1];
+
+    for (int i = n - 2; i >= 0; i--)
+        x[i] = (f[i] - b[i] * x[i + 1]) / c[i];
+
+
+    return x;
 }
 
 double Utils::powerLambdaMethod(const Matrix &_A, double eps) {
@@ -263,7 +280,8 @@ double Utils::rotationLambdaMethod(const Matrix &_A, double eps) {
                     mj = j;
                 }
 
-        double k = sqrt(1 - (4 * M[mi][mj] * M[mi][mj]) / ((M[mi][mi] - M[mj][mj]) * (M[mi][mi] - M[mj][mj]) + (4 * M[mi][mj] * M[mi][mj])));
+        double k = sqrt(1 - (4 * M[mi][mj] * M[mi][mj]) /
+                            ((M[mi][mi] - M[mj][mj]) * (M[mi][mi] - M[mj][mj]) + (4 * M[mi][mj] * M[mi][mj])));
         double c = sqrt((1 + k) / 2);
         double s = sqrt((1 - k) / 2);
         if (fabs(M[mi][mi] - M[mj][mj]) < _EPS) {
