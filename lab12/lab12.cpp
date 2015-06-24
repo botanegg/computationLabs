@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <algorithm>
 
 #include "share/matrix.h"
 
@@ -26,7 +27,7 @@ void simpleIterMethod(double h, double alpha, double eps, double x1, double x0, 
 
     for (size_t i = 1; i < n - 1; i++) {
         solutionMatrix[i][0] = u(x0, y0 + h * i, alpha);
-        for (int j = 1; j < n; j++)
+        for (size_t j = 1; j < n; j++)
             solutionMatrix[i][j] = 0;
         solutionMatrix[i][n - 1] = u(x1, y0 + h * i, alpha);
     }
@@ -38,13 +39,13 @@ void simpleIterMethod(double h, double alpha, double eps, double x1, double x0, 
     while (EPS > eps) {
         iter++;
         tmpMatrix = solutionMatrix;
-        for (int i = 1; i < n - 1; ++i)
-            for (int j = 1; j < n - 1; ++j)
+		for (size_t i = 1; i < n - 1; ++i)
+		    for (size_t j = 1; j < n - 1; ++j)
                 tmpMatrix[i][j] = (solutionMatrix[i - 1][j] + solutionMatrix[i + 1][j] + solutionMatrix[i][j - 1] +
                                    solutionMatrix[i][j + 1]) / 4 - (h * h * f(x0 + h * j, y0 + h * i, alpha)) / 4;
         EPS = 0;
-        for (int i = 0; i < n; ++i)
-            for (int j = 0; j < n; ++j)
+		for (size_t i = 0; i < n; ++i)
+		    for (size_t j = 0; j < n; ++j)
                 EPS = max(EPS, abs(tmpMatrix[i][j] - solutionMatrix[i][j]));
 
         solutionMatrix = tmpMatrix;
@@ -52,8 +53,8 @@ void simpleIterMethod(double h, double alpha, double eps, double x1, double x0, 
 
     cout << "iterations = " << iter << ";  Epsilon = " << EPS << endl;
     EPS = 0;
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n; ++j)
+	for (size_t i = 0; i < n; ++i)
+	    for (size_t j = 0; j < n; ++j)
             EPS = max(EPS, abs(solutionMatrix[i][j] - u(x0 + j * h, y0 + i * h, alpha)));
     cout << EPS << endl << endl;
 }
@@ -61,13 +62,13 @@ void simpleIterMethod(double h, double alpha, double eps, double x1, double x0, 
 void GaussZelde(double h, double alpha, double eps, double x1, double x0, double y1, double y0) {
     size_t n = (size_t) ((x1 - x0) / h + 1);
     Matrix solutionMatrix = Matrix::getE(n, n);
-    for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
         solutionMatrix[0][i] = u(x0 + i * h, y0, alpha);
         solutionMatrix[n - 1][i] = u(x0 + i * h, y1, alpha);
     }
-    for (int i = 1; i < n - 1; i++) {
+	for (size_t i = 1; i < n - 1; i++) {
         solutionMatrix[i][0] = u(x0, y0 + h * i, alpha);
-        for (int j = 1; j < n; j++)
+		for (size_t j = 1; j < n; j++)
             solutionMatrix[i][j] = 0;
         solutionMatrix[i][n - 1] = u(x1, y0 + h * i, alpha);
     }
@@ -79,20 +80,20 @@ void GaussZelde(double h, double alpha, double eps, double x1, double x0, double
         iter++;
 
         tmpMatrix = solutionMatrix;
-        for (int i = 1; i < n - 1; ++i)
-            for (int j = 1; j < n - 1; ++j)
+		for (size_t i = 1; i < n - 1; ++i)
+		    for (size_t j = 1; j < n - 1; ++j)
                 solutionMatrix[i][j] = (solutionMatrix[i - 1][j] + solutionMatrix[i + 1][j] + solutionMatrix[i][j - 1] +
                                         solutionMatrix[i][j + 1]) / 4 - (h * h * f(x0 + h * j, y0 + h * i, alpha)) / 4;
         EPS = 0;
-        for (int i = 0; i < n; ++i)
-            for (int j = 0; j < n; ++j)
+		for (size_t i = 0; i < n; ++i)
+		    for (size_t j = 0; j < n; ++j)
                 EPS = max(EPS, abs(tmpMatrix[i][j] - solutionMatrix[i][j]));
 
     }
     cout << "iterations = " << iter << ";  Epsilon = " << EPS << endl;
     EPS = 0;
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n; ++j)
+	for (size_t i = 0; i < n; ++i)
+	    for (size_t j = 0; j < n; ++j)
             EPS = max(EPS, abs(solutionMatrix[i][j] - u(x0 + j * h, y0 + i * h, alpha)));
     cout << EPS << endl << endl;
 }

@@ -132,8 +132,8 @@ double formulaGauss(double a, double b, int m) {
 
     //2
     t[2].resize(2);
-    t[2][0] = -0, 577350;
-    t[2][1] = 0, 577350;
+    t[2][0] = -0.577350;
+    t[2][1] = 0.577350;
 
     ag[2].resize(2);
     ag[2][0] = ag[2][1] = 1;

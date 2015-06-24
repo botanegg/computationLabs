@@ -204,23 +204,23 @@ Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
 
     Vector f = _b;
 
-    for (int i = 1; i < n; i++) {
+    for (size_t i = 1; i < n; i++) {
         a[i] = _A[i][i - 1];
     }
 
-    for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
         c[i] = _A[i][i];
     }
 
 
-    for (int i = 0; i < n - 1; i++) {
+	for (size_t i = 0; i < n - 1; i++) {
         b[i] = _A[i][i + 1];
     }
 
     Vector x = Vector::get0(n);
 
     double m;
-    for (int i = 1; i < n; i++) {
+	for (size_t i = 1; i < n; i++) {
         m = a[i] / c[i - 1];
         c[i] = c[i] - m * b[i - 1];
         f[i] = f[i] - m * f[i - 1];
@@ -228,8 +228,13 @@ Vector Utils::solveProgon(Matrix const &_A, Vector const &_b) {
 
     x[n - 1] = f[n - 1] / c[n - 1];
 
-    for (size_t i = n - 2; i >= 0; i--)
-        x[i] = (f[i] - b[i] * x[i + 1]) / c[i];
+	bool flag = true;
+	for (size_t i = n - 2; flag; i--)
+	{
+		x[i] = (f[i] - b[i] * x[i + 1]) / c[i];
+		if (i == 0) flag = false;
+	}
+        
 
 
     return x;
