@@ -71,12 +71,7 @@ void GaussZelde(double h, double alpha, double eps, double x1, double x0, double
             solutionMatrix[i][j] = 0;
         solutionMatrix[i][n - 1] = u(x1, y0 + h * i, alpha);
     }
-    /*for (int i=0;i<n;i++)
-    {
-        for (int j=0;j<n;j++)
-            cout<<setw(3)<<solutionMatrix[i][j]<<" ";
-        cout<<endl;
-    }*/
+
     Matrix tmpMatrix;
     double EPS = 1000000;
     int iter = 1;
