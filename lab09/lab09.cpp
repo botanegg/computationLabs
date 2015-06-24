@@ -83,7 +83,7 @@ double f2(double x, double y1, double y2) {
 
 vector<pair<double, double>> rungeKuttaSystemSolution(double (*fxu1)(double x, double y1, double y2),
                                                       double (*fxu2)(double x, double y1, double y2), double a,
-                                                      double b, double n, double eta, double psi) {
+                                                      double b, size_t n, double eta, double psi) {
     vector<pair<double, double>> res;
     double h = (b - a) / n;
     res.reserve(n + 1);
