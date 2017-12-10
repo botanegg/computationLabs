@@ -7,11 +7,11 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 #lib
 set(LIB_SOURCE_FILES
-    share/matrix.cpp
-    share/utils.cpp
-    share/vector.cpp
-    share/derivable.cpp
-)
+		share/matrix.cpp
+		share/utils.cpp
+		share/vector.cpp
+		share/derivable.cpp
+		)
 add_library(computation ${LIB_SOURCE_FILES})
 link_libraries(computation)
 
@@ -46,9 +46,9 @@ find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIRS})
 link_directories(${GLUT_LIBRARY_DIRS})
 add_definitions(${GLUT_DEFINITIONS})
-if(NOT GLUT_FOUND)
-    message(ERROR " GLUT not found!")
-endif(NOT GLUT_FOUND)
+if (NOT GLUT_FOUND)
+	message(ERROR " GLUT not found!")
+endif (NOT GLUT_FOUND)
 #########################################################
 # FIND OPENGL
 #########################################################
@@ -56,9 +56,9 @@ find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 link_directories(${OpenGL_LIBRARY_DIRS})
 add_definitions(${OpenGL_DEFINITIONS})
-if(NOT OPENGL_FOUND)
-    message(ERROR " OPENGL not found!")
-endif(NOT OPENGL_FOUND)
+if (NOT OPENGL_FOUND)
+	message(ERROR " OPENGL not found!")
+endif (NOT OPENGL_FOUND)
 
 
 #lab 06
@@ -66,9 +66,9 @@ set(SOURCE_FILES lab06/lab06.cpp)
 add_executable(lab_06 ${SOURCE_FILES})
 
 target_link_libraries(lab_06
-	${OPENGL_LIBRARIES}
-	${GLUT_LIBRARY}
-)
+		${OPENGL_LIBRARIES}
+		${GLUT_LIBRARY}
+		)
 
 #lab 07
 set(SOURCE_FILES lab07/lab07.cpp)
@@ -93,3 +93,7 @@ add_executable(lab_11 ${SOURCE_FILES})
 #lab 12
 set(SOURCE_FILES lab12/lab12.cpp)
 add_executable(lab_12 ${SOURCE_FILES})
+
+#lab 13
+set(SOURCE_FILES lab13/lab13.cpp)
+add_executable(lab_13 ${SOURCE_FILES})
