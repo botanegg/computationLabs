@@ -40,7 +40,7 @@ double getElemDiffY(size_t n, size_t i, double x) {
 
 double calcAij(size_t n, ssize_t i, ssize_t j) {
 	double delta = 1. / (n + 1);
-	ssize_t firstNumber = min(i, j);
+/*	ssize_t firstNumber = min(i, j);
 	ssize_t secondNumber = max(i, j);
 
 	double startPoint = (firstNumber + 1 - 1) * delta;
@@ -60,7 +60,12 @@ double calcAij(size_t n, ssize_t i, ssize_t j) {
 
 		startPoint += STEP;
 	}
-
+*/
+	if (i == j) 
+		integral = 2 * delta / 3 + 2 / delta;
+	else 
+		integral = delta / 6 - 1 / delta;
+	
 	return integral;
 }
 
